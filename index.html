@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f7f4" />
+  <title>Stockup — 投资记录与洞察</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview"><span class="brand-mark">s</span><span>stockup<span class="brand-dot">.</span></span></a>
+      <div class="workspace-label">个人工作台</div>
+      <nav class="nav-list">
+        <a class="nav-item active" href="#overview"><span class="nav-icon">◫</span>总览</a>
+        <a class="nav-item" href="#holdings"><span class="nav-icon">◈</span>我的持仓</a>
+        <a class="nav-item" href="#activity"><span class="nav-icon">↗</span>买入记录</a>
+        <a class="nav-item" href="#news"><span class="nav-icon">◉</span>市场消息</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-card"><span class="privacy-icon">⌑</span><div><strong>你的数据只在本机</strong><small>记录保存在当前浏览器</small></div></div>
+        <div class="profile"><div class="avatar">我</div><div><strong>我的投资空间</strong><small>个人账户</small></div><span class="more">···</span></div>
+      </div>
+    </aside>
+    <main class="main-content" id="overview">
+      <header class="topbar"><div class="breadcrumb">工作台 <span>/</span> 投资总览</div><div class="top-actions"><span class="today" id="today"></span><button class="icon-button" title="本地数据">⌑</button><button class="avatar small">我</button></div></header>
+      <section class="welcome-row"><div><div class="eyebrow"><span class="live-dot"></span>个人投资仪表盘</div><h1>把每一次买入，<em>看得更清楚。</em></h1><p>持续记录，定期回看。你的投资决策从这里开始。</p></div><button class="primary-button" id="open-add"><span>＋</span> 记录一笔买入</button></section>
+      <section class="backup-strip" id="backup-strip"><div class="backup-copy"><span class="backup-icon">⌑</span><div><strong>给本机记录留一份备份</strong><small id="backup-status">导出 JSON 文件，可随时导入恢复。</small></div></div><div class="backup-actions"><button class="backup-link" id="export-backup">下载备份</button><button class="backup-link" id="import-backup-button">导入恢复</button><input id="import-backup-file" type="file" accept=".json,application/json" hidden /></div></section>
+      <section class="stat-grid" id="stats"></section>
+      <section class="content-grid">
+        <article class="panel performance-panel"><div class="panel-heading"><div><div class="section-kicker">PORTFOLIO</div><h2>持仓概览</h2></div><a class="text-link" href="#holdings">查看全部 <span>↗</span></a></div><div class="chart-summary"><div><span class="muted-label">持仓市值</span><strong id="chart-value">—</strong></div><div class="chart-legend"><span class="legend-dot"></span>持仓成本</div></div><div class="chart-wrap"><div class="chart-y-labels"><span id="y-top">—</span><span id="y-mid">—</span><span id="y-bottom">—</span></div><svg id="portfolio-chart" viewBox="0 0 720 220" preserveAspectRatio="none" aria-label="持仓成本变化图"></svg><div class="chart-x-labels"><span>开始记录</span><span>最近买入</span><span>现在</span></div></div><div class="chart-note"><span>●</span> 图表展示买入成本累计；记录买入并获取现价后可查看盈亏。</div></article>
+        <article class="panel allocation-panel"><div class="panel-heading"><div><div class="section-kicker">ALLOCATION</div><h2>资产分布</h2></div><button class="subtle-button" id="allocation-count">按持仓</button></div><div class="donut-wrap"><div id="donut" class="donut"><div class="donut-center"><strong id="donut-total">0</strong><span>只股票</span></div></div></div><div id="allocation-list" class="allocation-list"></div></article>
+      </section>
+      <section class="panel holdings-panel" id="holdings"><div class="panel-heading"><div><div class="section-kicker">YOUR WATCHLIST</div><h2>我的持仓 <span class="count-badge" id="holding-count">0</span></h2><div class="quote-caption" id="quote-caption">可获取持仓股票的最新报价（可能有延迟）</div></div><div class="table-actions"><label class="search-box"><span>⌕</span><input id="search" placeholder="搜索股票名称或代码" /></label><button class="outline-button" id="update-prices">↻ 获取现价</button></div></div><div class="table-scroll"><table><thead><tr><th>股票</th><th>持有数量</th><th>平均成本</th><th>当前价格</th><th>持仓市值</th><th>盈亏</th><th></th></tr></thead><tbody id="holdings-body"></tbody></table></div><div id="empty-holdings" class="empty-state hidden"><div class="empty-icon">＋</div><strong>从第一笔买入开始</strong><span>记录交易后，这里会自动汇总你的持仓与成本。</span><button class="text-link" id="empty-add">添加一笔买入 →</button></div></section>
+      <section class="bottom-grid">
+        <article class="panel activity-panel" id="activity"><div class="panel-heading"><div><div class="section-kicker">RECENT ACTIVITY</div><h2>最近买入</h2></div><a class="text-link" href="#activity">全部记录 <span>↗</span></a></div><div id="activity-list" class="activity-list"></div></article>
+        <article class="panel news-panel" id="news"><div class="panel-heading"><div><div class="section-kicker">NEWS BRIEFING</div><h2>持仓消息汇总</h2></div><span class="news-mark">✳</span></div><p class="news-intro">按需收集持仓股票的最新消息，并整理成一份简明摘要。</p><div id="news-content" class="news-content"><div class="news-placeholder"><span>✳</span><strong>还没有生成今日摘要</strong><small>点击下方按钮，获取你关注的股票消息。</small></div></div><button class="news-button" id="summarize-news"><span>✳</span> 汇总持仓最新消息 <span class="button-arrow">↗</span></button><small class="news-disclaimer">消息来源：Google News · 摘要为自动提炼，仅供个人参考</small></article>
+      </section>
+      <footer>STOCKUP <span>·</span> 记录自己的节奏，做自己的判断。</footer>
+    </main>
+  </div>
+  <div class="modal-backdrop hidden" id="purchase-modal"><div class="modal"><div class="modal-head"><div><span class="section-kicker" id="form-kicker">NEW TRANSACTION</span><h2 id="form-title">记录一笔买入</h2></div><button class="close-button" id="close-modal">×</button></div><form id="purchase-form"><input type="hidden" name="id" /><label>股票代码 <input name="ticker" lang="en" required placeholder="例如 AAPL、0700.HK" autocomplete="off" autocapitalize="off" /></label><label>股票名称 <input name="name" lang="zh-CN" required placeholder="例如 Apple" autocomplete="on" /></label><div class="form-row"><label>买入日期 <input name="date" type="date" required /></label><label>买入数量 <input name="shares" type="number" min="0.000001" step="any" required placeholder="0" /></label></div><div class="form-row"><label>买入价格 <input name="price" type="number" min="0.000001" step="any" required placeholder="0.00" /></label><label>币种 <select name="currency"><option value="USD">USD · 美元</option><option value="HKD">HKD · 港元</option><option value="CNY">CNY · 人民币</option><option value="SGD">SGD · 新元</option></select></label></div><label>备注 <textarea name="note" lang="zh-CN" rows="2" placeholder="记录当时的想法（选填）"></textarea></label><div class="form-tip">价格可自动获取或手动维护。交易记录保存在此浏览器。</div><div class="modal-actions"><button type="button" class="outline-button" id="cancel-modal">取消</button><button class="primary-button" id="save-record" type="submit">保存记录 <span>→</span></button></div></form></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
